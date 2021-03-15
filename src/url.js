@@ -58,7 +58,6 @@ export function deviceType() {
         return 'IOS'
     }
 }
-
 /**
  * @description 判断是在微信浏览器还是支付宝浏览器
  */

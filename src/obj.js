@@ -28,3 +28,11 @@ export  function filterParams (obj) {
 export  function paramsType (type) {
     return Object.prototype.toString.call(o).slice(8, -1)
 }
+
+/**
+ * @param {Object} obj
+ * @description 对象转数组
+ */
+export function objToArray(obj) {
+   return Object.entries(obj)
+}

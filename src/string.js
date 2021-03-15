@@ -207,3 +207,46 @@ export function getCopy (value) {
     document.execCommand('Copy') // 执行复制
     document.body.removeChild(_input)
 }
+
+/**
+ * @description js 实现内容过多省略号
+ * @param {String} id  dom节点
+ * @param {String} rows  第几行出现省略号
+ * @param {String} str  省略内容
+ */
+export function moreline (id, rows, str) {
+    var boxid = document.getElementById(id)
+    var computedStyle = document.defaultView.getComputedStyle(boxid, null)
+    var lineHeight = computedStyle.lineHeight
+    var top = rows * parseInt(lineHeight)
+    var tempstr = str
+    boxid.innerHTML = tempstr
+    var len = tempstr.length
+    var i = 0
+    if (boxid.offsetHeight >= top) {
+        var temp = ''
+        boxid.innerHTML = temp
+        while (boxid.offsetHeight <= top) {
+            temp = tempstr.substring(0, i + 1)
+            i++
+            boxid.innerHTML = temp
+        }
+        var slen = temp.length
+        tempstr = temp.substring(0, slen - 1)
+        len = tempstr.length
+        boxid.innerHTML = tempstr.substring(0, len - 1) + '...'
+        boxid.height = top + 'rem'
+    }
+}
+/**
+ * @description 字符串的大小写取反（大写变小写小写变大写 要处理的字符串 AbC转换aBc
+ * @param {String} str
+ */
+export function processString(str) {
+    var arr = str.split('')
+    var new_arr = arr.map((item) => {
+        return item === item.toUpperCase() ? item.toLowerCase()
+            : item.toUpperCase()
+    })
+    return new_arr.join('')
+}
