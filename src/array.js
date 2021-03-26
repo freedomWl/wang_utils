@@ -60,7 +60,6 @@ export function treeToSingle (tree) {
             queen = queen.concat(first.children)
             delete first['children']
         }
-
         out.push(first)
     }
     return out
