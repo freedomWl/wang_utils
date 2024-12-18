@@ -5,5 +5,6 @@ export default {
     ...require('./src/obj'),
     ...require('./src/amount'),
     ...require('./src/file'),
-    ...require('./src/url')
+    ...require('./src/url'),
+    ...require('./src/wxapplet')
 }

@@ -100,3 +100,49 @@ export function compareDate(date1,date2){
     var oDate2 = new Date(date2);
     return oDate1.getTime() > oDate2.getTime();
 }
+
+/*
+ * @description: 辅助函数，用于将数字转换为两位数的字符串，不足两位时前面填充0
+ * @param {num}
+ */
+export const padZero = (num) => {
+    return num.toString().padStart(2, '0')
+};
+
+/*
+ * @description: 获取时间间隔
+ * @param {start_Time} [开始时间]
+ * @param {end_Time} [结束时间]
+ * @return {*} 处理好的时间间隔相关对象
+ */
+export const getTimeDistance = (start_Time, end_Time) => {
+    const startTime = +new Date(start_Time); // 开始时间戳
+    const endTime = +new Date(end_Time); // 结束时间戳
+    const times = (endTime - startTime) / 1000; // 剩余时间总的秒数
+    // 计算天、小时、分钟和秒
+    const dd = padZero(parseInt(times / 60 / 60 / 24)); // 天
+    const hh = padZero(parseInt((times / 60 / 60) % 24)); // 时
+    const mm = padZero(parseInt((times / 60) % 60)); // 分
+    const ss = padZero(parseInt(times % 60)); // 秒
+
+    if (ss < 0 || mm < 0 || hh < 0 || dd < 0) return null;
+
+    return {
+        timeStr: `${dd}天${hh}时${mm}分${ss}秒`,
+        timeStamp: times, // 剩余时间秒数
+        timeDistance: { dd, hh, mm, ss },
+        week: dd > 0 && dd < 7, // 7天内
+        month: dd > 0 && dd < 30, // 30天内
+        year: dd > 0 && dd < 365, // 一年内
+    };
+};
+
+/*
+ * @description: 转换时间戳
+ * @param params {string}
+ * @return {*} [时间戳]
+ */
+export const timeStamp = params => {
+    const oldDate = +new Date(params) //转换成时间戳
+    return oldDate
+}
