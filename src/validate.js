@@ -3,8 +3,7 @@
 export function isExternal (path) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
-/**
-	 * 验证编码CODE的正则表达式
+/*** 验证编码CODE的正则表达式
 	 * 只能包含英文、数字、点、横线、下划线
 	 */
 export function validateCode (str) {
