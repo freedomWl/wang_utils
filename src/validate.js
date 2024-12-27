@@ -1,47 +1,91 @@
 
-
+/**
+ * 判断给定的路径是否为外部链接
+ *
+ * @param {string} path - 需要判断的路径
+ * @returns {boolean} 如果路径是外部链接（以http://, https://, mailto:, tel:开头），则返回true；否则返回false
+ */
 export function isExternal (path) {
   return /^(https?:|mailto:|tel:)/.test(path)
 }
+
 /**
-     * 验证编码CODE的正则表达式
-	 * 只能包含英文、数字、点、横线、下划线
-	 */
+ * 验证编码CODE的正则表达式
+ *
+ * @param {string} str - 需要验证的编码CODE字符串
+ * @returns {boolean} 如果字符串只包含英文、数字、点、横线、下划线，则返回true；否则返回false
+ */
 export function validateCode (str) {
   const reg = /^[a-zA-Z0-9_\\.\\-]*$/
   return reg.test(str)
 }
 
 /**
- * 验证编码CODE的正则表达式
- * 2、	文本输入数据时不能包含特殊字符，特殊字符包括~ ! @ # $ % ^ & * ( ) - + = [ ] { } | \ ; : ' " , . / < > ? <
+ * 验证用户输入是否合法
+ *
+ * 此函数用于验证用户输入是否只包含允许的字符。
+ * 允许的字符包括英文字母（大小写）、数字以及中文字符。
+ * 不允许的字符包括：~ ! @ # $ % ^ & * ( ) - + = [ ] { } | \ ; : ' " , . / < > ?
+ *
+ * @param {string} str - 用户输入的字符串
+ * @returns {boolean} 如果输入字符串只包含允许的字符，则返回true；否则返回false
  */
 export function validUserInput (str) {
   const reg = /^[a-zA-Z0-9\u4E00-\u9FA5]+$/
   return reg.test(str)
 }
+
+/**
+ * 验证标签输入是否合法
+ *
+ * 此函数用于验证输入字符串是否只包含英文字母（大小写）、数字以及中文字符。
+ *
+ * @param {string} str - 待验证的输入字符串
+ * @returns {boolean} 如果输入字符串只包含英文字母（大小写）、数字以及中文字符，则返回true；否则返回false
+ */
 export function validTagsInput (str) {
   const reg = /^[a-zA-Z0-9\u4E00-\u9FA5]+$/
   return reg.test(str)
 }
+
 /**
- * 验证编码CODE的正则表达式
- * 只能是数字(正整数)
+ * 验证输入字符串是否为正整数
+ *
+ * 使用正则表达式检查输入字符串是否仅包含正整数。
+ *
+ * @param {string} str - 需要验证的输入字符串
+ * @returns {boolean} 如果输入字符串是正整数，则返回true；否则返回false
  */
 export function validNumberOnly (str) {
   const reg = /^[1-9]\d*$/
   return reg.test(str)
 }
-// 包括0
+
+/**
+ * 验证输入字符串是否为非负整数
+ *
+ * 使用正则表达式检查输入字符串是否仅包含非负整数（包括0）。
+ *
+ * @param {string} str - 需要验证的输入字符串
+ * @returns {boolean} 如果输入字符串是非负整数，则返回true；否则返回false
+ */
 export function validNumberOnlyAnd0 (str) {
   const reg = /^[0-9]\d*$/
   return reg.test(str)
 }
 
 /**
- * 手机号码或者固定电话校验
+ * 验证输入字符串是否为手机号或座机电话
+ *
+ * 此函数用于验证输入的字符串是否符合手机号或座机电话的格式。
+ * 如果输入字符串中包含 '-' 字符，则使用座机电话的正则表达式进行校验；
+ * 如果不包含 '-' 字符，则使用手机号的正则表达式进行校验。
+ *
+ * @param {string} str - 需要验证的输入字符串
+ * @returns {boolean} 如果输入字符串符合手机号或座机电话的格式，则返回 true；否则返回 false
  */
-export const validmobileNumber = (str) => {
+
+export function validmobileNumber (str){
   if (str.indexOf('-') === -1) {
     const reg = /^1[3456789]\d{9}$/
     return reg.test(str)
@@ -51,43 +95,72 @@ export const validmobileNumber = (str) => {
     return reg.test(str)
   }
 }
-
 /**
- * 邮箱号码校验
+ * 验证电子邮件地址的有效性
+ *
+ * @param {string} str - 需要验证的电子邮件地址字符串
+ * @returns {boolean} 如果字符串是有效的电子邮件地址，则返回true；否则返回false
  */
-export const validEmail = (str) => {
+
+export function validEmail  (str){
   const reg = /^[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/
   return reg.test(str)
 }
 
 /**
- * 校验纯数字(整数)
+ * 验证输入字符串是否为纯数字
+ *
+ * 此函数用于检查传入的字符串是否仅由数字字符组成。
+ *
+ * @param {string} str - 需要验证的输入字符串
+ * @returns {boolean} 如果输入字符串完全由数字组成，则返回 true；否则返回 false
  */
-export const checkNumber = (str) => {
+
+export function validNumber  (str){
   const reg = /^[0-9]*$/
   return reg.test(str)
 }
 /**
- * 校验数字(非负，包含浮点数)
+ * 验证输入字符串是否为正整数或正浮点数
+ *
+ * 该函数接收一个字符串参数，并检查该字符串是否符合正整数或正浮点数的格式。
+ * 使用正则表达式进行验证，确保字符串仅包含数字，且可选地包含一个小数点及小数点后的数字。
+ * 同时，该函数排除了形如 '0' 或 '0.0' 这样的无效数值。
+ *
+ * @param {string} str - 需要验证的输入字符串
+ * @returns {boolean} 如果输入字符串为正整数或正浮点数，则返回 true；否则返回 false
  */
-export const checkFloatAndIntegerNumber = (str) => {
+
+export function checkFloatAndIntegerNumber  (str) {
   // const reg = /^([0-9]\d*|\d+\.\d+)$/
   const reg = /^(?!0+(\.0+)?$)\d+(\.\d+)?$/
   return reg.test(str)
 }
-
 /**
- * 校验数字和字母
+ * 检查字符串是否仅包含数字和字母
+ *
+ * 该函数用于验证传入的字符串是否仅由数字（0-9）或字母（a-z, A-Z）组成。
+ * 它通过正则表达式进行匹配，返回布尔值表示验证结果。
+ *
+ * @param {string} str - 需要验证的字符串
+ * @returns {boolean} 如果字符串仅包含数字和字母，则返回 true；否则返回 false
  */
-export const checkNumberOrAlphabet = (str) => {
+
+export function checkNumberOrAlphabet (str){
   const reg = /^[0-9a-zA-Z]*$/
   return reg.test(str)
 }
-
 /**
-  * 判断特殊字符(不包含下划线)
-  */
-export const specialCharacters1 = (str) => {
+ * 判断字符串中是否包含特殊字符（不包含下划线）
+ *
+ * 该函数遍历输入的字符串，检查其中是否包含指定的特殊字符集合。
+ * 如果字符串中包含任何特殊字符，则返回 false；否则返回 true。
+ *
+ * @param {string} str - 需要检查的字符串
+ * @returns {boolean} 如果字符串中不包含任何特殊字符（不包含下划线），则返回 true；否则返回 false
+ */
+
+export function specialCharacters1 (str){
   var specialKey = "~!@#$%^&*()-+=[{}|\;:',./<>?~·！￥……（）——-+={【}】|、：；”“‘’《，》。？/"
   for (var i = 0; i < str.length; i++) {
     if (specialKey.indexOf(str.substr(i, 1)) !== -1) {
@@ -95,14 +168,19 @@ export const specialCharacters1 = (str) => {
     }
   }
   return true
-  // const regEn1 = /[~!@#$%^&*()-+=[\]{}|\\;:'",.\/<>?]/im;
-  // return regEn1.test(str);
 }
 
 /**
-  * 判断特殊字符(包含下划线)
-  */
-export const specialCharacters2 = (str) => {
+ * 判断字符串中是否包含特殊字符（包含下划线）
+ *
+ * 该函数用于检查传入的字符串中是否包含特定的特殊字符集合，包括下划线。
+ * 如果字符串中包含任何特殊字符，则返回 false；否则返回 true。
+ *
+ * @param {string} str - 需要检查的字符串
+ * @returns {boolean} 如果字符串中不包含任何特殊字符（包含下划线），则返回 true；否则返回 false
+ */
+
+export function specialCharacters2 (str){
   var specialKey = "~!@#$%^&*()-_+=[]{}|\;:',./<>?~·！￥……（）——-+={【}】|、：；”“‘’《，》。？/"
   for (var i = 0; i < str.length; i++) {
     if (specialKey.indexOf(str.substr(i, 1)) !== -1) {
@@ -110,14 +188,18 @@ export const specialCharacters2 = (str) => {
     }
   }
   return true
-  // const regEn2 = /[~!@#$%^&*()-_+=[\]{}|\\;:'",.\/<>?]/im;
-  // return regEn2.test(str);
 }
 
 /**
-  * 判断特殊字符（js）
-  */
-export const specialKeyFun = (str) => {
+ * 判断字符串中是否包含特殊字符（JavaScript）
+ *
+ * 该函数用于检查传入的字符串是否包含特定的特殊字符集合。
+ * 如果字符串中包含任何特殊字符，则返回 false；否则返回 true。
+ *
+ * @param {string} str - 需要检查的字符串
+ * @returns {boolean} 如果字符串中不包含任何特殊字符，则返回 true；否则返回 false
+ */
+export function specialKeyFun (str) {
   var specialKey = "[`~!#$^&*()=|{}':;'\\[\\].<>/?~！#￥……&*（）——|{}【】‘；：”“'。，、？]‘'"
   for (var i = 0; i < str.length; i++) {
     if (specialKey.indexOf(str.substr(i, 1)) !== -1) {
@@ -127,31 +209,12 @@ export const specialKeyFun = (str) => {
   return true
 }
 
-/**
- * 检查字符串是否存在于本地存储中的角色功能数组中
- *
- * @param str 要检查的字符串
- * @returns 如果字符串存在于本地存储中的角色功能数组中，则返回 true；否则返回 false
- */
-export function hasFunction (str) {
-  var functionCodes = localStorage.getItem('roleFunction')
-  if (functionCodes === 'undefined') {
-    return false
-  }
-  var functionCodesArray = JSON.parse(functionCodes)
-  for (var i = 0; i < functionCodesArray.length; i++) {
-    if (str === functionCodesArray[i]) {
-      return true
-    }
-  }
-  return false
-}
 /** *******************************************
   * 检验身份证格式是否正确
   ********************************************/
-export const checkIdCard = (IDCard, callback) => {
+export function checkIdCard (IDCard, callback) {
   // 身份证地区
-  var areaID = {
+  const areaID = {
     11: '北京',
     12: '天津',
     13: '河北',
@@ -188,19 +251,52 @@ export const checkIdCard = (IDCard, callback) => {
     82: '澳门',
     91: '国外'
   }
+  // 验证长度和格式
+  if (!/^\d{17}(\d|x|X)$/i.test(IDCard)) {
+    return callback(new Error('输入的身份证长度或格式错误!'));
+  }
+
+  // 统一将X转换为小写a进行后续处理
+  const normalizedIDCard = IDCard.replace(/x|X$/i, 'a');
+
+  // 验证地区码
+  if (areaID[parseInt(normalizedIDCard.substr(0, 2), 10)] == null) {
+    return callback(new Error('身份证地区码非法!'));
+  }
+
+  // 验证出生日期
+  const sBirthday = `${normalizedIDCard.substr(6, 4)}-${normalizedIDCard.substr(10, 2)}-${normalizedIDCard.substr(12, 2)}`;
+  const d = new Date(sBirthday);
+  if (isNaN(d) || sBirthday !== d.toISOString().slice(0, 10)) {
+    return callback(new Error('身份证上的出生日期非法!'));
+  }
+
+  // 验证校验码
+  const weights = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]; // 权重因子
+  const checkCodes = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2']; // 校验码
+  let sum = 0;
+  for (let i = 0; i < normalizedIDCard.length - 1; i++) {
+    sum += parseInt(normalizedIDCard[i], 10) * weights[i];
+  }
+  const remainder = sum % 11;
+  if (normalizedIDCard[17] !== checkCodes[remainder]) {
+    return callback(new Error('输入的身份证号非法!'));
+  }
+
+  return callback();
   // 性别
-  // var sexMap = { 0: '女', 1: '男' }
-  var iSum = 0
-  // var info = ''
-  if (!/^\d{17}(\d|x)$/i.test(IDCard)) { return callback(new Error('你输入的身份证长度或格式错误!')) }
-  IDCard = IDCard.replace(/x$/i, 'a')
-  if (areaID[parseInt(IDCard.substr(0, 2))] == null) { return callback(new Error('你的身份证地区非法!')) }
-  var sBirthday = IDCard.substr(6, 4) + '-' + Number(IDCard.substr(10, 2)) + '-' + Number(IDCard.substr(12, 2))
-  var d = new Date(sBirthday.replace(/-/g, '/'))
-  if (sBirthday !== (d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate())) { return callback(new Error('身份证上的出生日期非法!')) }
-  for (var i = 17; i >= 0; i--) { iSum += (Math.pow(2, i) % 11) * parseInt(IDCard.charAt(17 - i), 11) }
-  if (iSum % 11 !== 1) { return callback(new Error('你输入的身份证号非法!')) }
-  return callback()
+  // // var sexMap = { 0: '女', 1: '男' }
+  // var iSum = 0
+  // // var info = ''
+  // if (!/^\d{17}(\d|x)$/i.test(IDCard)) { return callback(new Error('你输入的身份证长度或格式错误!')) }
+  // IDCard = IDCard.replace(/x$/i, 'a')
+  // if (areaID[parseInt(IDCard.substr(0, 2))] == null) { return callback(new Error('你的身份证地区非法!')) }
+  // var sBirthday = IDCard.substr(6, 4) + '-' + Number(IDCard.substr(10, 2)) + '-' + Number(IDCard.substr(12, 2))
+  // var d = new Date(sBirthday.replace(/-/g, '/'))
+  // if (sBirthday !== (d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate())) { return callback(new Error('身份证上的出生日期非法!')) }
+  // for (var i = 17; i >= 0; i--) { iSum += (Math.pow(2, i) % 11) * parseInt(IDCard.charAt(17 - i), 11) }
+  // if (iSum % 11 !== 1) { return callback(new Error('你输入的身份证号非法!')) }
+  // return callback()
 }
 // 军官证
 export const checkJunGuanCard = (val, callback) => {
@@ -211,19 +307,30 @@ export const checkJunGuanCard = (val, callback) => {
     return callback(new Error('你输入的军官证长度或格式错误!'))
   }
 }
-// 护照
-export const checkHuZhaoCard = (val, callback) => {
-  // const reg = /^[EGeg]{1}\d{7}$/g
-  const reg1 = /^[a-zA-Z]{5,17}$/g
-  const reg2 = /^[a-zA-Z0-9]{5,17}$/g
-  if (reg1.test(val) || reg2.test(val)) {
-    return callback()
+
+/**
+ * 检查护照号码的有效性
+ *
+ * 该函数用于验证输入的护照号码是否符合特定的格式要求。
+ * 如果护照号码符合格式要求，则调用回调函数且不传递任何参数；
+ * 如果不符合格式要求，则调用回调函数并传递一个错误对象。
+ *
+ * @param {string} val - 需要验证的护照号码字符串
+ * @param {Function} callback - 回调函数，用于处理验证结果
+ *                             - 当验证通过时，不传递任何参数调用此函数
+ *                             - 当验证失败时，传递一个Error对象调用此函数
+ */
+export function checkHuZhaoCard(val, callback) {
+  // 护照号码通常由5到17位的字母和数字组成
+  const reg = /^[a-zA-Z0-9]{5,17}$/g;
+  if (reg.test(val)) {
+    return callback();
   } else {
-    return callback(new Error('你输入的护照长度或格式错误!'))
+    return callback(new Error('你输入的护照长度或格式错误!'));
   }
 }
 // 回乡证
-export const checkHuiXiangCard = (val, callback) => {
+export function checkHuiXiangCard (val, callback) {
   const reg = /^[HMhm]([0-9]{10}|[0-9]{8})$/g
   if (reg.test(val)) {
     return callback()
@@ -322,19 +429,22 @@ export const checkFloatAndIntegerNumberAll = (str) => {
   return reg.test(str)
 }
 /**
- * 手机号码或者固定电话校验
+ * 验证手机号码或固定电话的有效性
+ *
+ * @param {string} str - 需要验证的电话号码字符串
+ * @returns {boolean} 如果字符串是有效的手机号码或固定电话，则返回true；否则返回false
  */
-export const validmobileNumber2 = (str) => {
-  const reg = /^1[3456789]\d{9}$/
-  return reg.test(str)
-  // if (str.indexOf("-") == -1) {
-  //   const reg = /^1[3456789]\d{9}$/
-  //   return reg.test(str)
-  // } else {
-  //   // console.log("inini")
-  //   const reg = /^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/
-  //   return reg.test(str)
-  // }
+export function validatePhoneNumber(str) {
+  if (str.indexOf("-") === -1) {
+    // 手机号码的正则表达式，匹配以1开头，第二位为3-9之间任意数字，后面跟着9位数字的手机号
+    const reg = /^1[3-9]\d{9}$/;
+    return reg.test(str);
+  } else {
+    // 固定电话的正则表达式，匹配区号（0开头，后面跟着2-3位数字），电话号码（7-8位数字），
+    // 可选的分机和分机号（以-开头，后面跟着至少3位数字）
+    const reg = /^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+    return reg.test(str);
+  }
 }
 // 只能数字
 export const numberOnly = (str, callback) => {
@@ -441,19 +551,27 @@ export function verifyAndSpace(val) {
   return v;
 }
 
-// 金额用 `,` 区分开
-export function verifyNumberComma(val) {
-  // 调用小数或整数(不可以负数)方法
-  let v = verifyNumberIntegerAndFloat(val);
-  // 字符串转成数组
-  v = v.toString().split('.');
-  // \B 匹配非单词边界，两边都是单词字符或者两边都是非单词字符
-  v[0] = v[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  // 数组转字符串
-  v = v.join('.');
-  // 返回结果
-  return v;
+/**
+ * 格式化数字，添加逗号分隔符
+ *
+ * @param {string} val - 需要格式化的数字字符串
+ * @returns {string} 格式化后的数字字符串，包含逗号分隔符
+ */
+export function formatNumberWithCommas(val) {
+  // 验证并获取格式化前的数字字符串
+  const verifiedNumber = verifyNumberIntegerAndFloat(val);
+  if (typeof verifiedNumber !== 'string') {
+    throw new Error('Invalid number format');
+  }
+  // 整数部分添加逗号分隔符
+  const integerPart = verifiedNumber.split('.')[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  // 如果有小数部分，则合并；否则直接返回整数部分
+  const decimalPart = verifiedNumber.split('.')[1];
+  return decimalPart ? `${integerPart}.${decimalPart}` : integerPart;
 }
+
+
 
 // 匹配文字变色（搜索时）
 export function verifyTextColor(val, text = '', color = 'red') {
@@ -548,80 +666,88 @@ export function verifyPasswordStrength(val) {
   // 返回结果
   return v;
 }
+/**
+ * 验证IP地址的有效性
+ *
+ * @param {string} val - 需要验证的IP地址字符串
+ * @returns {boolean} 如果字符串是有效的IPv4地址，则返回true；否则返回false
+ */
 
-// IP地址
 export function verifyIPAddress(val) {
-  // false: IP地址不正确
-  if (
-      !/^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/.test(
-          val
-      )
-  )
-    return false;
-  // true: IP地址正确
-  else return true;
+  // 使用更简洁的正则表达式验证IP地址
+  const ipRegex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+  return ipRegex.test(val);
 }
 
-// 邮箱
+/**
+ * 验证输入的字符串是否符合电子邮件格式
+ *
+ * @param {string} val - 需要验证的电子邮件地址字符串
+ * @returns {boolean} 如果输入的字符串符合电子邮件格式，则返回true；否则返回false
+ */
 export function verifyEmail(val) {
-  // false: 邮箱不正确
-  if (
-      !/^(([^<>()\\[\]\\.,;:\s@"]+(\.[^<>()\\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-          val
-      )
-  )
-    return false;
-  // true: 邮箱正确
-  else return true;
+  // 使用更简洁的正则表达式验证邮箱格式
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(val);
 }
-
-// 身份证
+/**
+ * 验证身份证号码的有效性
+ *
+ * @param {string} val - 需要验证的身份证号码
+ * @returns {boolean} 如果身份证号码有效，则返回true；否则返回false
+ */
 export function verifyIdCard(val) {
-  // false: 身份证不正确
-  if (!/^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test(val)) return false;
-  // true: 身份证正确
-  else return true;
+  // 正则表达式验证身份证号码格式
+  const idCardRegex = /^[1-9]\d{5}(18|19|20)\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
+  // 使用test()方法进行验证并返回结果
+  return idCardRegex.test(val);
 }
 
-// 姓名
+/**
+ * 验证全名是否符合中文姓名格式，支持最多两个点的姓名（如“张三·李四·王五”）
+ *
+ * @param {string} val - 需要验证的全名
+ * @returns {boolean} 如果全名符合格式，则返回true；否则返回false
+ */
 export function verifyFullName(val) {
-  // false: 姓名不正确
-  if (!/^[\u4e00-\u9fa5]{1,6}(·[\u4e00-\u9fa5]{1,6}){0,2}$/.test(val)) return false;
-  // true: 姓名正确
-  else return true;
+  return /^[\u4e00-\u9fa5]{1,6}(·[\u4e00-\u9fa5]{1,6}){0,2}$/.test(val);
 }
 
-// 邮政编码
+/**
+ * 验证邮政编码是否正确
+ *
+ * @param {string} val - 需要验证的邮政编码字符串
+ * @returns {boolean} 如果邮政编码格式正确，则返回true；否则返回false
+ */
 export function verifyPostalCode(val) {
-  // false: 邮政编码不正确
-  if (!/^[1-9][0-9]{5}$/.test(val)) return false;
-  // true: 邮政编码正确
-  else return true;
+  // 使用正则表达式验证邮政编码格式：6位数字，首位不为0
+  const reg = /^[1-9][0-9]{5}$/;
+  return reg.test(val);
 }
-
-// url
+/**
+ * 验证给定的字符串是否为有效的URL
+ *
+ * @param {string} val - 需要验证的字符串
+ * @returns {boolean} 如果字符串是有效的URL，则返回true；否则返回false
+ */
 export function verifyUrl(val) {
-  // false: url不正确
-  if (
-      !/^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
-          val
-      )
-  )
-    return false;
-  // true: url正确
-  else return true;
+  // 简化后的正则表达式，用于验证URL格式
+  const urlRegex = /^(https?:\/\/[^\s]+)/i;
+  return urlRegex.test(val);
 }
 
-// 车牌号
+/**
+ * 验证车牌号的有效性
+ *
+ * 使用正则表达式来验证传入的车牌号字符串是否符合规定的格式。
+ * 该正则表达式支持中国大陆的各种车牌号格式，包括普通车牌、新能源汽车车牌以及特殊车牌（如使领馆车牌等）。
+ *
+ * @param {string} val - 需要验证的车牌号字符串
+ * @returns {boolean} 如果传入的车牌号字符串符合规定的格式，则返回true；否则返回false
+ */
 export function verifyCarNum(val) {
-  // false: 车牌号不正确
-  if (
-      !/^(([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z](([0-9]{5}[DF])|([DF]([A-HJ-NP-Z0-9])[0-9]{4})))|([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳使领]))$/.test(
-          val
-      )
-  )
-    return false;
-  // true：车牌号正确
-  else return true;
+  // 简化后的正则表达式，仍然保持原有功能
+  const reg = /^([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z](([0-9]{5}[DF])|([DF]([A-HJ-NP-Z0-9])[0-9]{4}))|([京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领][A-Z][A-HJ-NP-Z0-9]{4}[A-HJ-NP-Z0-9挂学警港澳使领]))$/;
+  return reg.test(val);
 }
 
